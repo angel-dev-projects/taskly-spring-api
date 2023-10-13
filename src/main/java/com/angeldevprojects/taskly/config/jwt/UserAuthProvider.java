@@ -1,6 +1,7 @@
 package com.angeldevprojects.taskly.config.jwt;
 
 import com.angeldevprojects.taskly.dtos.UserDto;
+import com.angeldevprojects.taskly.exceptions.AppException;
 import com.angeldevprojects.taskly.services.UserService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -9,10 +10,12 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.Date;
@@ -71,5 +74,24 @@ public class UserAuthProvider {
         UserDto user = userService.findByUsername(decoded.getSubject());
 
         return new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
+    }
+
+    public String extractUsernameFromToken(String token) {
+        try {
+            String[] authElements = token.split(" ");
+
+            if (authElements.length == 2
+                    && "Bearer".equals(authElements[0])){
+
+                Algorithm algorithm = Algorithm.HMAC256(secretKey);
+                JWTVerifier verifier = JWT.require(algorithm).build();
+                DecodedJWT decoded = verifier.verify(authElements[1]);
+                return decoded.getSubject();
+            }
+
+            return null;
+        } catch (Exception e) {
+            throw new AppException("Error extracting the username from the token", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

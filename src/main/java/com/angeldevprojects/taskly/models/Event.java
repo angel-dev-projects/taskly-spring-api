@@ -5,8 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,13 +30,18 @@ public class Event {
     private String description;
 
     @Column(nullable = false)
-    private LocalDate date;
+    private String start;
 
     @Column(nullable = false)
-    private LocalTime hour;
+    private String end;
 
-    @Column(nullable = false)
-    private String color;
+    private Boolean allDay = false;
+
+    private String backgroundColor = "#0000FF";
+
+    private String borderColor = "#0000FF";
+
+    private String textColor = "#FFFFFF";
 
     @ManyToOne
     @JoinColumn(name = "user_id")
