@@ -2,7 +2,6 @@ package com.angeldevprojects.taskly.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @AllArgsConstructor
@@ -12,33 +11,22 @@ import lombok.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "events")
-public class Event {
+@Table(name = "contacts")
+public class Contact {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    @Size(max = 30)
-    private String title;
+    private String name;
 
-    @Size(max = 200)
-    private String description;
+    private String surname;
 
     @Column(nullable = false)
-    private String start;
+    private String phoneNumber;
 
-    @Column(nullable = false)
-    private String end;
-
-    private Boolean allDay = false;
-
-    private String backgroundColor = "#0000FF";
-
-    private String borderColor = "#FF1414";
-
-    private String textColor = "#FFFFFF";
+    private String email;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

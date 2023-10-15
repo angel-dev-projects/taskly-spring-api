@@ -45,4 +45,7 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Event> events;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Contact> contacts;
 }

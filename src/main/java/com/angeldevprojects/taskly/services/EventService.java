@@ -32,16 +32,16 @@ public class EventService {
     }
 
     public Event create(String token, Event event) {
-        if (StringUtils.isBlank(event.getTitle()) || StringUtils.isBlank(event.getDescription())  || StringUtils.isBlank(event.getStart()) || StringUtils.isBlank(event.getEnd())) {
+        if (StringUtils.isBlank(event.getTitle()) || StringUtils.isBlank(event.getDescription()) || StringUtils.isBlank(event.getStart()) || StringUtils.isBlank(event.getEnd())) {
             throw new AppException("Title, description, start date and end date are required", HttpStatus.BAD_REQUEST);
         }
 
-        if(event.getTitle().length()>30) {
-            throw new AppException("The title must have between 0 and 30 characters",HttpStatus.BAD_REQUEST);
+        if (event.getTitle().length() > 30) {
+            throw new AppException("The title must have between 0 and 30 characters", HttpStatus.BAD_REQUEST);
         }
 
-        if(event.getDescription().length()>200) {
-            throw new AppException("The description must have between 0 and 200 characters",HttpStatus.BAD_REQUEST);
+        if (event.getDescription().length() > 200) {
+            throw new AppException("The description must have between 0 and 200 characters", HttpStatus.BAD_REQUEST);
         }
 
         User user = getUserFromToken(token);
@@ -50,16 +50,15 @@ public class EventService {
     }
 
     public Event update(EventDto updatedEvent, Long eventId, String token) {
-        if (StringUtils.isBlank(updatedEvent.title()) || StringUtils.isBlank(updatedEvent.description())  || StringUtils.isBlank(updatedEvent.start()) || StringUtils.isBlank(updatedEvent.end())) {
-            throw new AppException("Title, description, start date and end date are required", HttpStatus.BAD_REQUEST);
+        String title = updatedEvent.title();
+        String description = updatedEvent.description();
+
+        if (title != null && title.length() > 30) {
+            throw new AppException("The title must have between 0 and 30 characters", HttpStatus.BAD_REQUEST);
         }
 
-        if(updatedEvent.title().length()>30) {
-            throw new AppException("The title must have between 0 and 30 characters",HttpStatus.BAD_REQUEST);
-        }
-
-        if(updatedEvent.description().length()>200) {
-            throw new AppException("The description must have between 0 and 200 characters",HttpStatus.BAD_REQUEST);
+        if (description != null && description.length() > 200) {
+            throw new AppException("The description must have between 0 and 200 characters", HttpStatus.BAD_REQUEST);
         }
 
         Event event = getEventIfBelongsToUser(eventId, token);
