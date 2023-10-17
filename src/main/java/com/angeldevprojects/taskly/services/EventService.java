@@ -32,7 +32,7 @@ public class EventService {
     }
 
     public Event create(String token, Event event) {
-        if (StringUtils.isBlank(event.getTitle()) || StringUtils.isBlank(event.getDescription()) || StringUtils.isBlank(event.getStart()) || StringUtils.isBlank(event.getEnd())) {
+        if (StringUtils.isBlank(event.getTitle()) || StringUtils.isBlank(event.getDescription()) || StringUtils.isBlank(event.getStart_date()) || StringUtils.isBlank(event.getEnd_date())) {
             throw new AppException("Title, description, start date and end date are required", HttpStatus.BAD_REQUEST);
         }
 

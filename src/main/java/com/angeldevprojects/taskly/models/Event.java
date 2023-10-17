@@ -27,10 +27,10 @@ public class Event {
     private String description;
 
     @Column(nullable = false)
-    private String start;
+    private String start_date;
 
     @Column(nullable = false)
-    private String end;
+    private String end_date;
 
     private Boolean allDay = false;
 
